@@ -1,0 +1,35 @@
+package com.servicio.reservas.usuarios.infraestructure.controller;
+
+import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
+import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
+import com.servicio.reservas.usuarios.aplication.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+        System.out.println(userRequest);
+        try{
+            UserResponse userResponse = userService.createuser(userRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return  ResponseEntity.badRequest().body(null);
+        }
+    }
+
+}
