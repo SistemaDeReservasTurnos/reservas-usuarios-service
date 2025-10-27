@@ -3,7 +3,6 @@ package com.servicio.reservas.usuarios.infraestructure.persistence;
 import com.servicio.reservas.usuarios.domain.entities.User;
 
 public class UserModelMapper {
-
     public static UserModel toModel(User user){
         UserModel userModel = new UserModel();
         userModel.setId(user.getId());
