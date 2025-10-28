@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements  IUserService {
-
     private final IUserRepository userRepository;
 
     public UserService(IUserRepository userRepository) {
@@ -21,6 +20,7 @@ public class UserService implements  IUserService {
     @Override
     public UserResponse createuser(UserRequest userRequest) {
         User newUser = UserMapper.toDomain(userRequest);
+
         return UserMapper.toResponse(userRepository.save(newUser));
     }
 }
