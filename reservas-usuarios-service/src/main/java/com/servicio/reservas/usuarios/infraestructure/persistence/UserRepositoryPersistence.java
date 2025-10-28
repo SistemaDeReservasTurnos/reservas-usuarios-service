@@ -4,6 +4,9 @@ import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserRepositoryPersistence implements IUserRepository {
 
@@ -17,5 +20,13 @@ public class UserRepositoryPersistence implements IUserRepository {
     public User save(User user){
         UserModel userModel = UserModelMapper.toModel(user);
         return UserModelMapper.toDomain(userRepositoryPersistence.save(userModel));
+    }
+
+    @Override
+    public List<User> findAll(){
+        List<UserModel> models = userRepositoryPersistence.findAll();
+        return models.stream()
+                .map(UserModelMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
