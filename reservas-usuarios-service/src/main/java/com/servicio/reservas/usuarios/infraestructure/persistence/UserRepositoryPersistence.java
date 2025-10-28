@@ -2,14 +2,13 @@ package com.servicio.reservas.usuarios.infraestructure.persistence;
 
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class UserRepositoryPersistence implements IUserRepository {
-
     private final SpringRepositoryPersistence userRepositoryPersistence;
 
     public UserRepositoryPersistence(SpringRepositoryPersistence userRepositoryPersistence) {

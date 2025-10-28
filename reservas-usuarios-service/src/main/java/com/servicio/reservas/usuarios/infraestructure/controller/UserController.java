@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -21,13 +20,12 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
-        System.out.println(userRequest);
-        try{
+        try {
             UserResponse userResponse = userService.createuser(userRequest);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return  ResponseEntity.badRequest().body(null);
+        } catch (Exception ex){
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

@@ -1,4 +1,5 @@
 package com.servicio.reservas.usuarios.aplication.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
