@@ -7,6 +7,9 @@ import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService implements  IUserService {
@@ -22,5 +25,13 @@ public class UserService implements  IUserService {
         User newUser = UserMapper.toDomain(userRequest);
 
         return UserMapper.toResponse(userRepository.save(newUser));
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers(){
+        List<User> users =  userRepository.findAll();
+        return users.stream()
+                .map(UserMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }
