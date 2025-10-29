@@ -10,21 +10,21 @@ import java.util.stream.Collectors;
 @Component
 public class UserRepositoryPersistence implements IUserRepository {
 
-    private final SpringRepositoryPersistence userRepositoryPersistence;
+    private final SpringRepositoryPersistence springUserRepositoryPersistence;
 
-    public UserRepositoryPersistence(SpringRepositoryPersistence userRepositoryPersistence) {
-        this.userRepositoryPersistence = userRepositoryPersistence;
+    public UserRepositoryPersistence(SpringRepositoryPersistence springUserRepositoryPersistence) {
+        this.springUserRepositoryPersistence = springUserRepositoryPersistence;
     }
 
     @Override
     public User save(User user){
         UserModel userModel = UserModelMapper.toModel(user);
-        return UserModelMapper.toDomain(userRepositoryPersistence.save(userModel));
+        return UserModelMapper.toDomain(springUserRepositoryPersistence.save(userModel));
     }
 
     @Override
     public List<User> findAll(){
-        List<UserModel> models = userRepositoryPersistence.findAll();
+        List<UserModel> models = springUserRepositoryPersistence.findAll();
         return models.stream()
                 .map(UserModelMapper::toDomain)
                 .collect(Collectors.toList());
