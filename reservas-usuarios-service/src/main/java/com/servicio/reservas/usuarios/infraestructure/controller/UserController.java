@@ -28,9 +28,9 @@ public class UserController {
         }
     }
     
-    @GetMapping("/all_users")
-    public ResponseEntity<List<UserResponse>> getAllUsers(){
-        List<UserResponse> users = userService.getAllUsers();
+    @GetMapping("/{role}")
+    public ResponseEntity<List<UserResponse>> getAllByRole(@PathVariable String role) {
+        List<UserResponse> users = userService.getAllByRole(role);
         return ResponseEntity.ok().body(users);
     }
 

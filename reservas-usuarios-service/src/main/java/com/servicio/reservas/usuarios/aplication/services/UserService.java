@@ -28,8 +28,8 @@ public class UserService implements  IUserService {
     }
 
     @Override
-    public List<UserResponse> getAllUsers(){
-        List<User> users =  userRepository.findAll();
+    public List<UserResponse> getAllByRole(String role){
+        List<User> users =  userRepository.findAllByRole(role);
         return users.stream()
                 .map(UserMapper::toResponse)
                 .collect(Collectors.toList());

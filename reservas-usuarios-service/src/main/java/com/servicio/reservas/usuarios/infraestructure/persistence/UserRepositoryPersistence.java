@@ -23,8 +23,8 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
-    public List<User> findAll(){
-        List<UserModel> models = springUserRepositoryPersistence.findByActiveTrue();
+    public List<User> findAllByRole(String role){
+        List<UserModel> models = springUserRepositoryPersistence.findByActiveTrueAndRol(role);
         return models.stream()
                 .map(UserModelMapper::toDomain)
                 .collect(Collectors.toList());
