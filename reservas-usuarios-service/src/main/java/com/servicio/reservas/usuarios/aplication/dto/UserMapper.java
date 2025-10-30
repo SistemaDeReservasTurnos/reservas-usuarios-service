@@ -10,6 +10,7 @@ public class UserMapper {
         newUser.setPhone_number(userRequest.getPhone_number());
         newUser.setEmail(userRequest.getEmail());
         newUser.setRol(userRequest.getRol());
+        newUser.setActive(true);
 
         return newUser;
     }

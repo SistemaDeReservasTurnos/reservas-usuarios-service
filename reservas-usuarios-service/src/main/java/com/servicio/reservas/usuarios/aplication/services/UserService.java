@@ -34,4 +34,10 @@ public class UserService implements  IUserService {
                 .map(UserMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deactivateUser(Long id) {
+        userRepository.deactivate(id);
+    }
+
 }

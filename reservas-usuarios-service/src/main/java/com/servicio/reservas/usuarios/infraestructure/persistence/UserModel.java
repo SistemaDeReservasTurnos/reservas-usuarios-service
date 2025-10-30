@@ -32,4 +32,7 @@ public class UserModel {
 
     @Column(nullable = false, length = 50)
     private String rol;
+
+    @Column(nullable = false)
+    private Boolean active;
 }

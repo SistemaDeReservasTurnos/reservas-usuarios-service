@@ -24,9 +24,18 @@ public class UserRepositoryPersistence implements IUserRepository {
 
     @Override
     public List<User> findAll(){
-        List<UserModel> models = springUserRepositoryPersistence.findAll();
+        List<UserModel> models = springUserRepositoryPersistence.findByActiveTrue();
         return models.stream()
                 .map(UserModelMapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deactivate(Long id){
+        UserModel userModel = springUserRepositoryPersistence.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        userModel.setActive(false);
+        springUserRepositoryPersistence.save(userModel);
     }
 }
