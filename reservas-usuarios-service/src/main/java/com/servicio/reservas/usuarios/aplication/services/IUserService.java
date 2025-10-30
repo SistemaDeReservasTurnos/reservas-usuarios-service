@@ -8,4 +8,5 @@ import java.util.List;
 public interface IUserService {
     UserResponse createuser(UserRequest userRequest);
     List<UserResponse> getAllUsers();
+    void deactivateUser(Long id);
 }

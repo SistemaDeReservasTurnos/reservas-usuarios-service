@@ -22,16 +22,25 @@ public class UserController {
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
         try {
             UserResponse userResponse = userService.createuser(userRequest);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         } catch (Exception ex){
             return ResponseEntity.badRequest().body(null);
         }
     }
-
+    
     @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers(){
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<?> deactivateUser(@PathVariable Long id) {
+        try {
+            userService.deactivateUser(id);
+            return ResponseEntity.ok("Usuario desactivado correctamente");
+        } catch (RuntimeException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 }
