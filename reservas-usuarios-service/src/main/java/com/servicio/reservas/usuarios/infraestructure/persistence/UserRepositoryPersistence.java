@@ -31,6 +31,13 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
+    public User getByEmail(String email){
+        UserModel userModel = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return UserModelMapper.toDomain(userModel);
+    }
+
+    @Override
     public void deactivate(Long id){
         UserModel userModel = springUserRepositoryPersistence.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));

@@ -28,10 +28,20 @@ public class UserController {
         }
     }
     
-    @GetMapping("/users")
+    @GetMapping("/all_users")
     public ResponseEntity<List<UserResponse>> getAllUsers(){
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email){
+        try{
+            UserResponse user = userService.getUserByEmail(email);
+            return ResponseEntity.ok().body(user);
+        } catch (RuntimeException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 
     @PutMapping("/deactivate/{id}")

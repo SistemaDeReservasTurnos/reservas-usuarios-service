@@ -9,4 +9,5 @@ public interface IUserService {
     UserResponse createuser(UserRequest userRequest);
     List<UserResponse> getAllUsers();
     void deactivateUser(Long id);
+    UserResponse getUserByEmail(String email);
 }

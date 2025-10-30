@@ -36,6 +36,11 @@ public class UserService implements  IUserService {
     }
 
     @Override
+    public UserResponse getUserByEmail(String email) {
+        return UserMapper.toResponse( userRepository.getByEmail(email));
+    }
+
+    @Override
     public void deactivateUser(Long id) {
         userRepository.deactivate(id);
     }
