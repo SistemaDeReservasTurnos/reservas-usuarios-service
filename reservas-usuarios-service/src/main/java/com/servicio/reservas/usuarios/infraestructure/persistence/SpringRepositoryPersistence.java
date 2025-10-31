@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpringRepositoryPersistence extends JpaRepository<UserModel, Long> {
-    List<UserModel> findByActiveTrueAndRol(String role);
+    List<UserModel> findByActiveTrueAndRole(String role);
     Optional<UserModel> findByEmailAndActiveTrue(String email);
+    Boolean existsByEmail(String email);
 }

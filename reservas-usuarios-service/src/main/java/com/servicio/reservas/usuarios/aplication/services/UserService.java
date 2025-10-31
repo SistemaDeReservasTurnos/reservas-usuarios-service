@@ -3,6 +3,7 @@ package com.servicio.reservas.usuarios.aplication.services;
 import com.servicio.reservas.usuarios.aplication.dto.UserMapper;
 import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
+import com.servicio.reservas.usuarios.aplication.dto.updateCredentialRequest;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,16 @@ public class UserService implements  IUserService {
     @Override
     public void deactivateUser(String email) {
         userRepository.deactivate(email);
+    }
+
+    @Override
+    public void updateUser(String email, String column, String value){
+        userRepository.update(email, column, value);
+    }
+
+    @Override
+    public void updateCredential(String email, updateCredentialRequest request){
+        userRepository.updateCredential(email, request);
     }
 
 }

@@ -10,7 +10,7 @@ public class UserModelMapper {
         userModel.setPassword(user.getPassword());
         userModel.setName(user.getName());
         userModel.setPhoneNumber(user.getPhone_number());
-        userModel.setRol(user.getRol());
+        userModel.setRole(user.getRole());
         userModel.setActive(user.getActive());
 
         return userModel;
@@ -22,7 +22,7 @@ public class UserModelMapper {
         user.setName(userModel.getName());
         user.setEmail(userModel.getEmail());
         user.setPassword(userModel.getPassword());
-        user.setRol(userModel.getRol());
+        user.setRole(userModel.getRole());
         user.setPhone_number(userModel.getPhoneNumber());
 
         return user;
