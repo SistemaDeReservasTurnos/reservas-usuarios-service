@@ -31,7 +31,7 @@ public class UserModel {
     private String phoneNumber;
 
     @Column(nullable = false, length = 50)
-    private String rol;
+    private String role;
 
     @Column(nullable = false)
     private Boolean active;

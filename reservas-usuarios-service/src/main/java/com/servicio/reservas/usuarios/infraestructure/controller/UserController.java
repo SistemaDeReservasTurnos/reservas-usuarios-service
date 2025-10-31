@@ -2,6 +2,7 @@ package com.servicio.reservas.usuarios.infraestructure.controller;
 
 import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
+import com.servicio.reservas.usuarios.aplication.dto.updateCredentialRequest;
 import com.servicio.reservas.usuarios.aplication.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,36 @@ public class UserController {
             return ResponseEntity.ok("Usuario desactivado correctamente");
         } catch (RuntimeException ex){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{email}/{column}/{value}")
+    public ResponseEntity<?> updateUser(
+             @PathVariable String email,
+             @PathVariable String column,
+             @PathVariable String value) {
+        try {
+            List<String> allowedColumns = List.of("name", "phone_number");
+            if (!allowedColumns.contains(column)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Campo no permitido para actualización");
+            }
+            userService.updateUser(email, column, value);
+            return ResponseEntity.ok("Usuario actualizado correctamente");
+        } catch (RuntimeException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
+
+    @PutMapping("/update-credential/{email}")
+    public ResponseEntity<?> updateUserCredential(
+            @PathVariable String email,
+            @RequestBody updateCredentialRequest request) {
+        try{
+            userService.updateCredential(email, request);
+            return ResponseEntity.ok("Datos actualizados exitosamente");
+        } catch (RuntimeException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
 }

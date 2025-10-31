@@ -9,7 +9,7 @@ public class UserMapper {
         newUser.setPassword(userRequest.getPassword());
         newUser.setPhone_number(userRequest.getPhone_number());
         newUser.setEmail(userRequest.getEmail());
-        newUser.setRol(userRequest.getRol());
+        newUser.setRole(userRequest.getRole());
         newUser.setActive(true);
 
         return newUser;
@@ -22,7 +22,7 @@ public class UserMapper {
         userResponse.setPassword(user.getPassword());
         userResponse.setEmail(user.getEmail());
         userResponse.setPhone_number(user.getPhone_number());
-        userResponse.setRol(user.getRol());
+        userResponse.setRole(user.getRole());
 
         return userResponse;
     }
