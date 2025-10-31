@@ -7,6 +7,6 @@ import java.util.List;
 public interface IUserRepository {
     User save(User user);
     List<User> findAllByRole(String role);
-    void deactivate(Long id);
+    void deactivate(String email);
     User getByEmail(String email);
 }

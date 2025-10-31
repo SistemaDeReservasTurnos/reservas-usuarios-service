@@ -44,10 +44,10 @@ public class UserController {
         }
     }
 
-    @PutMapping("/deactivate/{id}")
-    public ResponseEntity<?> deactivateUser(@PathVariable Long id) {
+    @PutMapping("/deactivate/{email}")
+    public ResponseEntity<?> deactivateUser(@PathVariable String email) {
         try {
-            userService.deactivateUser(id);
+            userService.deactivateUser(email);
             return ResponseEntity.ok("Usuario desactivado correctamente");
         } catch (RuntimeException ex){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

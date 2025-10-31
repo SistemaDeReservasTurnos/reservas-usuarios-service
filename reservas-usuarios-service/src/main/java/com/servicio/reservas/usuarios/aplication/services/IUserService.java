@@ -8,6 +8,6 @@ import java.util.List;
 public interface IUserService {
     UserResponse createuser(UserRequest userRequest);
     List<UserResponse> getAllByRole(String role);
-    void deactivateUser(Long id);
+    void deactivateUser(String email);
     UserResponse getUserByEmail(String email);
 }
