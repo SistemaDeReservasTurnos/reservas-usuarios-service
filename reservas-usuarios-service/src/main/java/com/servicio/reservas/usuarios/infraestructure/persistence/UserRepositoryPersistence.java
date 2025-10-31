@@ -38,8 +38,8 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
-    public void deactivate(Long id){
-        UserModel userModel = springUserRepositoryPersistence.findById(id)
+    public void deactivate(String email){
+        UserModel userModel = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         userModel.setActive(false);
