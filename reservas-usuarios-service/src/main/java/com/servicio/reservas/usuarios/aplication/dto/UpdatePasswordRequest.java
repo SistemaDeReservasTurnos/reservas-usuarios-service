@@ -1,5 +1,6 @@
 package com.servicio.reservas.usuarios.aplication.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class updateCredentialRequest {
+public class UpdatePasswordRequest {
+
+    @NotBlank(message = "Current password is required")
     private String currentPassword;
+
+    @NotBlank(message = "New password is required")
     private String newPassword;
-    private String newEmail;
 }

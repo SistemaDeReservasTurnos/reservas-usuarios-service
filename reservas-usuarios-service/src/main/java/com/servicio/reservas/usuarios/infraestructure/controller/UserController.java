@@ -1,9 +1,12 @@
 package com.servicio.reservas.usuarios.infraestructure.controller;
 
+import com.servicio.reservas.usuarios.aplication.dto.UpdateEmailRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
-import com.servicio.reservas.usuarios.aplication.dto.updateCredentialRequest;
+import com.servicio.reservas.usuarios.aplication.dto.UpdatePasswordRequest;
 import com.servicio.reservas.usuarios.aplication.services.UserService;
+import com.servicio.reservas.usuarios.domain.entities.Role;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,68 +23,51 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
-        try {
-            UserResponse userResponse = userService.createuser(userRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
-        } catch (Exception ex){
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userService.createuser(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
     
     @GetMapping("/role/{role}")
-    public ResponseEntity<List<UserResponse>> getAllByRole(@PathVariable String role) {
-        List<UserResponse> users = userService.getAllByRole(role);
+    public ResponseEntity<List<UserResponse>> getAllByRole(@PathVariable Role role) {
+        List<UserResponse> users = userService.getAllByRole(role.name().toLowerCase());
         return ResponseEntity.ok().body(users);
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<?> getUserByEmail(@PathVariable String email){
-        try{
+    public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email){
             UserResponse user = userService.getUserByEmail(email);
             return ResponseEntity.ok().body(user);
-        } catch (RuntimeException ex){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
     }
 
     @PutMapping("/deactivate/{email}")
-    public ResponseEntity<?> deactivateUser(@PathVariable String email) {
-        try {
+    public ResponseEntity<String> deactivateUser(@PathVariable String email) {
             userService.deactivateUser(email);
-            return ResponseEntity.ok("Usuario desactivado correctamente");
-        } catch (RuntimeException ex){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+            return ResponseEntity.ok("User successfully deactivated");
     }
 
     @PutMapping("/update/{email}/{column}/{value}")
-    public ResponseEntity<?> updateUser(
+    public ResponseEntity<String> updateUser(
              @PathVariable String email,
              @PathVariable String column,
              @PathVariable String value) {
-        try {
-            List<String> allowedColumns = List.of("name", "phone_number");
-            if (!allowedColumns.contains(column)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Campo no permitido para actualización");
-            }
             userService.updateUser(email, column, value);
-            return ResponseEntity.ok("Usuario actualizado correctamente");
-        } catch (RuntimeException ex){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+            return ResponseEntity.ok("User successfully updated");
     }
 
-    @PutMapping("/update-credential/{email}")
-    public ResponseEntity<?> updateUserCredential(
+    @PutMapping("/update-password/{email}")
+    public ResponseEntity<String> updatePassword(
             @PathVariable String email,
-            @RequestBody updateCredentialRequest request) {
-        try{
-            userService.updateCredential(email, request);
-            return ResponseEntity.ok("Datos actualizados exitosamente");
-        } catch (RuntimeException ex){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
+            @Valid @RequestBody UpdatePasswordRequest request) {
+            userService.updatePassword(email, request);
+            return ResponseEntity.ok("Password updated correctly");
+    }
+
+    @PutMapping("/update-email/{email}")
+    public ResponseEntity<String> updateEmail(
+            @PathVariable String email,
+            @Valid @RequestBody UpdateEmailRequest request) {
+        userService.updateEmail(email, request);
+        return ResponseEntity.ok("Email updated correctly");
     }
 }

@@ -1,8 +1,10 @@
 package com.servicio.reservas.usuarios.infraestructure.persistence;
 
-import com.servicio.reservas.usuarios.aplication.dto.updateCredentialRequest;
+import com.servicio.reservas.usuarios.aplication.dto.UpdateEmailRequest;
+import com.servicio.reservas.usuarios.aplication.dto.UpdatePasswordRequest;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
+import com.servicio.reservas.usuarios.infraestructure.exception.CustomExcepction;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,15 +35,13 @@ public class UserRepositoryPersistence implements IUserRepository {
 
     @Override
     public User getByEmail(String email){
-        UserModel userModel = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        UserModel userModel = getActiveUserModelByEmail(email);
         return UserModelMapper.toDomain(userModel);
     }
 
     @Override
     public void deactivate(String email){
-        UserModel userModel = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        UserModel userModel = getActiveUserModelByEmail(email);
 
         userModel.setActive(false);
         springUserRepositoryPersistence.save(userModel);
@@ -49,8 +49,7 @@ public class UserRepositoryPersistence implements IUserRepository {
 
     @Override
     public void update(String email, String column, String value){
-        UserModel user = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        UserModel user = getActiveUserModelByEmail(email);
 
         switch (column) {
             case "name" -> user.setName(value);
@@ -61,28 +60,12 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
-    public void updateCredential(String email, updateCredentialRequest request){
-        UserModel user = springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public Boolean existsByEmail(String email){
+        return springUserRepositoryPersistence.existsByEmail(email);
+    }
 
-        if(!request.getCurrentPassword().equals(user.getPassword())){
-            throw new RuntimeException("Contraseña actual incorrecta");
-        }
-
-        if(request.getNewPassword() != null && !request.getNewPassword().isBlank()){
-            if(request.getNewPassword().equals(user.getPassword())){
-                throw new RuntimeException("La nueva contraseña no puede ser igual a la anterior");
-            }
-            user.setPassword(request.getNewPassword());
-        }
-
-        if(request.getNewEmail() != null && !request.getNewEmail().isBlank()){
-            if(springUserRepositoryPersistence.existsByEmail(request.getNewEmail())){
-                throw new RuntimeException("El nuevo correo ya está en uso");
-            }
-            user.setEmail(request.getNewEmail());
-        }
-
-        springUserRepositoryPersistence.save(user);
+    private UserModel getActiveUserModelByEmail(String email) {
+        return springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
+                .orElseThrow(() -> new CustomExcepction("User not found with the email: " + email));
     }
 }

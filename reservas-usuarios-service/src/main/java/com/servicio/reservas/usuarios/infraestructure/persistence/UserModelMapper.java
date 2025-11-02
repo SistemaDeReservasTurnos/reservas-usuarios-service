@@ -24,6 +24,7 @@ public class UserModelMapper {
         user.setPassword(userModel.getPassword());
         user.setRole(userModel.getRole());
         user.setPhone_number(userModel.getPhoneNumber());
+        user.setActive(userModel.getActive());
 
         return user;
     }

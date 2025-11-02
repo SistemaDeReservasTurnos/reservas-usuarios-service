@@ -1,8 +1,9 @@
 package com.servicio.reservas.usuarios.aplication.services;
 
+import com.servicio.reservas.usuarios.aplication.dto.UpdateEmailRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
-import com.servicio.reservas.usuarios.aplication.dto.updateCredentialRequest;
+import com.servicio.reservas.usuarios.aplication.dto.UpdatePasswordRequest;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ public interface IUserService {
     void deactivateUser(String email);
     UserResponse getUserByEmail(String email);
     void updateUser(String email, String column, String value);
-    void updateCredential(String email, updateCredentialRequest request);
+    void updatePassword(String email, UpdatePasswordRequest request);
+    void updateEmail(String email, UpdateEmailRequest request);
 }
