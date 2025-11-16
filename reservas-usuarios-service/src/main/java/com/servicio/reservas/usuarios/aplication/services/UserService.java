@@ -3,7 +3,7 @@ package com.servicio.reservas.usuarios.aplication.services;
 import com.servicio.reservas.usuarios.aplication.dto.*;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
-import com.servicio.reservas.usuarios.infraestructure.exception.CustomExcepction;
+import com.servicio.reservas.usuarios.infraestructure.exceptions.CustomExcepction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

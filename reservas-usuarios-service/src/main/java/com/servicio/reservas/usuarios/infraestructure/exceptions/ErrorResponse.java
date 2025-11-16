@@ -1,4 +1,4 @@
-package com.servicio.reservas.usuarios.infraestructure.exception;
+package com.servicio.reservas.usuarios.infraestructure.exceptions;
 
 import lombok.Data;
 

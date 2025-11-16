@@ -1,4 +1,4 @@
-package com.servicio.reservas.usuarios.infraestructure.exception;
+package com.servicio.reservas.usuarios.infraestructure.exceptions;
 
 public class CustomExcepction extends RuntimeException{
     public CustomExcepction(String message) {
