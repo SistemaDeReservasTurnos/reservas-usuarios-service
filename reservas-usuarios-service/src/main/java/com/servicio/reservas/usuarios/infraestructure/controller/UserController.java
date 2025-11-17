@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/update-password/{email}")
-    @PreAuthorize("authentication.name == #email")
+    @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR') or authentication.name == #email")
     public ResponseEntity<String> updatePassword(
             @PathVariable String email,
             @Valid @RequestBody UpdatePasswordRequest request) {
@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @PutMapping("/update-email/{email}")
-    @PreAuthorize("authentication.name == #email")
+    @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR') or authentication.name == #email")
     public ResponseEntity<String> updateEmail(
             @PathVariable String email,
             @Valid @RequestBody UpdateEmailRequest request) {
