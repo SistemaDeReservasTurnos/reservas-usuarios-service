@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('SCOPE_SCOPE_INTERNAL_SERVICE') or hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('SCOPE_INTERNAL_SERVICE') or hasAuthority('ROLE_ADMINISTRADOR')")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         UserResponse userResponse = userService.createuser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    @PreAuthorize("hasAuthority('SCOPE_SCOPE_INTERNAL_SERVICE') or hasAuthority('ROLE_ADMINISTRADOR') or authentication.name == #email")
+    @PreAuthorize("hasAuthority('SCOPE_INTERNAL_SERVICE') or hasAuthority('ROLE_ADMINISTRADOR') or authentication.name == #email")
     public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email){
             UserResponse user = userService.getUserByEmail(email);
             return ResponseEntity.ok().body(user);
