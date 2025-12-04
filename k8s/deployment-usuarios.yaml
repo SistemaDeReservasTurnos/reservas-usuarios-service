@@ -4,19 +4,19 @@ metadata:
   name: deploy-usuarios
   namespace: StudioBarber
   labels:
-    app: usuarios-service
+    app: reservas-usuarios-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: usuarios-service
+      app: reservas-usuarios-service
   template:
     metadata:
       labels:
-        app: usuarios-service
+        app: reservas-usuarios-service
     spec:
       containers:
-        - name: usuarios-service
+        - name: reservas-usuarios-service
           # nombre local de la imagen -> usuarios-service-local:latest (igual siempre)
           image: us-central1-docker.pkg.dev/studiobarber-480215/repo-usuarios/usuarios-service:v1.0.0
           imagePullPolicy: Always  # nos aseguramos que siempre use la ultima version de la imagen

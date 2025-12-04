@@ -5,7 +5,7 @@ metadata:
   name: usuarios-service
 spec:
   selector:
-    app: usuarios-service
+    app: reservas-usuarios-service
   ports:
     - protocol: TCP #http
       port: 80
