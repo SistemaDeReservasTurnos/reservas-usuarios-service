@@ -29,7 +29,7 @@ spec:
             - name: DB_PORT
               value: 5432     # Puerto que usa el sidecar
             - name: DB_USER   # El user es el email del GSA
-              value: "auth-permisos@studiobarber-480215.iam.gserviceaccount.com"
+              value: "usa-permissions@studiobarber-480215.iam.gserviceaccount.com"
 
         ## sidecar del proxy cloud sql auth
         - name: cloudsql-proxy
