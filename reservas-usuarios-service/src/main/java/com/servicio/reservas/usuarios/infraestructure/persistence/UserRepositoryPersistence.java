@@ -37,6 +37,17 @@ public class UserRepositoryPersistence implements IUserRepository {
         return UserModelMapper.toDomain(userModel);
     }
 
+    public UserModel getById(Long id){
+         return springUserRepositoryPersistence.findByIdAndActiveTrue(id)
+                 .orElseThrow(() -> new CustomExcepction("User not found"));
+    }
+
+    @Override
+    public User getUserById(Long id){
+        UserModel userModel = getById(id);
+        return UserModelMapper.toDomain(userModel);
+    }
+
     @Override
     public void deactivate(String email){
         UserModel userModel = getActiveUserModelByEmail(email);
