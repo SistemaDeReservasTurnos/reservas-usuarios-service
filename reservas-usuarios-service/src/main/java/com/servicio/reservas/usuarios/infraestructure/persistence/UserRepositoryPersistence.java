@@ -2,7 +2,7 @@ package com.servicio.reservas.usuarios.infraestructure.persistence;
 
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
-import com.servicio.reservas.usuarios.infraestructure.exceptions.CustomExcepction;
+import com.servicio.reservas.usuarios.infraestructure.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,14 +37,9 @@ public class UserRepositoryPersistence implements IUserRepository {
         return UserModelMapper.toDomain(userModel);
     }
 
-    public UserModel getById(Long id){
-         return springUserRepositoryPersistence.findByIdAndActiveTrue(id)
-                 .orElseThrow(() -> new CustomExcepction("User not found"));
-    }
-
     @Override
     public User getUserById(Long id){
-        UserModel userModel = getById(id);
+        UserModel userModel = getActiveUserModelById(id);
         return UserModelMapper.toDomain(userModel);
     }
 
@@ -75,6 +70,11 @@ public class UserRepositoryPersistence implements IUserRepository {
 
     private UserModel getActiveUserModelByEmail(String email) {
         return springUserRepositoryPersistence.findByEmailAndActiveTrue(email)
-                .orElseThrow(() -> new CustomExcepction("User not found with the email: " + email));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with the email: " + email));
+    }
+
+    private UserModel getActiveUserModelById(Long id){
+        return springUserRepositoryPersistence.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with the id: " + id));
     }
 }
