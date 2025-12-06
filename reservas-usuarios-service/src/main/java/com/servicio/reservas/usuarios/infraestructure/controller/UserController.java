@@ -4,7 +4,7 @@ import com.servicio.reservas.usuarios.aplication.dto.UpdateEmailRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
 import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
 import com.servicio.reservas.usuarios.aplication.dto.UpdatePasswordRequest;
-import com.servicio.reservas.usuarios.aplication.services.UserService;
+import com.servicio.reservas.usuarios.aplication.services.IUserService;
 import com.servicio.reservas.usuarios.domain.entities.Role;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
@@ -45,6 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_INTERNAL_SERVICE')")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
         return ResponseEntity.ok().body(userService.getUserById(id));
     }
