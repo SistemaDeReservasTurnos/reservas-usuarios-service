@@ -33,14 +33,25 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getRequestURI(), null);
     }
 
-    @ExceptionHandler(CustomExcepction.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleUserNotFound(CustomExcepction ex, HttpServletRequest request) {
+    public ErrorResponse handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
         return new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Not Found",
                 ex.getMessage(),
-                request.getRequestURI(),
-                null
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErrorResponse handleBusiness(BusinessException ex, HttpServletRequest request) {
+        return new ErrorResponse(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Business Rule Violation",
+                ex.getMessage(),
+                request.getRequestURI()
         );
     }
 }

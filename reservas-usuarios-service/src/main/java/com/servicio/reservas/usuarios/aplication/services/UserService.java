@@ -3,7 +3,7 @@ package com.servicio.reservas.usuarios.aplication.services;
 import com.servicio.reservas.usuarios.aplication.dto.*;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
-import com.servicio.reservas.usuarios.infraestructure.exceptions.CustomExcepction;
+import com.servicio.reservas.usuarios.infraestructure.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +39,11 @@ public class UserService implements  IUserService {
     }
 
     @Override
+    public UserResponse getUserById(Long id){
+        return UserMapper.toResponse(userRepository.getUserById(id));
+    }
+
+    @Override
     public void deactivateUser(String email) {
         userRepository.deactivate(email);
     }
@@ -47,7 +52,7 @@ public class UserService implements  IUserService {
     public void updateUser(String email, String column, String value){
         List<String> allowedColumns = List.of("name", "phone_number");
         if (!allowedColumns.contains(column)) {
-            throw new CustomExcepction("Field not allowed for updates: " + column);
+            throw new BusinessException("Field not allowed for updates: " + column);
         }
 
         userRepository.update(email, column, value);
@@ -58,10 +63,10 @@ public class UserService implements  IUserService {
         User user = userRepository.getByEmail(email);
 
         if (!request.getCurrentPassword().equals(user.getPassword())) {
-            throw new CustomExcepction("Current passwords do not match");
+            throw new BusinessException("Current passwords do not match");
         }
         if (request.getNewPassword().equals(user.getPassword())) {
-            throw new CustomExcepction("New password can't be the same");
+            throw new BusinessException("New password can't be the same");
         }
 
         user.setPassword(request.getNewPassword());
@@ -73,13 +78,13 @@ public class UserService implements  IUserService {
         User user = userRepository.getByEmail(email);
 
         if (!request.getCurrentPassword().equals(user.getPassword())) {
-            throw new CustomExcepction("Current passwords do not match");
+            throw new BusinessException("Current passwords do not match");
         }
         if(request.getNewEmail().equals(user.getEmail())) {
-            throw new CustomExcepction("New email can't be the same");
+            throw new BusinessException("New email can't be the same");
         }
         if(userRepository.existsByEmail(request.getNewEmail())){
-            throw new CustomExcepction("Email already exists");
+            throw new BusinessException("Email already exists");
         }
 
         user.setEmail(request.getNewEmail());

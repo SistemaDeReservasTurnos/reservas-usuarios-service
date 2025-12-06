@@ -8,4 +8,5 @@ public interface SpringRepositoryPersistence extends JpaRepository<UserModel, Lo
     List<UserModel> findByActiveTrueAndRole(String role);
     Optional<UserModel> findByEmailAndActiveTrue(String email);
     Boolean existsByEmail(String email);
+    Optional<UserModel> findByIdAndActiveTrue(Long id);
 }

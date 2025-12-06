@@ -44,6 +44,11 @@ public class UserController {
             return ResponseEntity.ok().body(user);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.getUserById(id));
+    }
+
     @PutMapping("/deactivate/{email}")
     @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR')")
     public ResponseEntity<String> deactivateUser(@PathVariable String email) {
