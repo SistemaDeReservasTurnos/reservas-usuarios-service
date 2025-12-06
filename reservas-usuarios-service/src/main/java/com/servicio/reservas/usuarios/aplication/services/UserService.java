@@ -23,6 +23,10 @@ public class UserService implements IUserService {
 
     @Override
     public UserResponse createuser(UserRequest userRequest) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
+            throw new BusinessException("Email already exists");
+        }
+
         User newUser = UserMapper.toDomain(userRequest);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
@@ -66,14 +70,14 @@ public class UserService implements IUserService {
     public void updatePassword(String email, UpdatePasswordRequest request) {
         User user = userRepository.getByEmail(email);
 
-        if (!request.getCurrentPassword().equals(user.getPassword())) {
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new BusinessException("Current passwords do not match");
         }
-        if (request.getNewPassword().equals(user.getPassword())) {
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
             throw new BusinessException("New password can't be the same");
         }
 
-        user.setPassword(request.getNewPassword());
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
 
@@ -81,7 +85,7 @@ public class UserService implements IUserService {
     public void updateEmail(String email, UpdateEmailRequest request) {
         User user = userRepository.getByEmail(email);
 
-        if (!request.getCurrentPassword().equals(user.getPassword())) {
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new BusinessException("Current passwords do not match");
         }
         if (request.getNewEmail().equals(user.getEmail())) {
@@ -94,5 +98,4 @@ public class UserService implements IUserService {
         user.setEmail(request.getNewEmail());
         userRepository.save(user);
     }
-
 }
