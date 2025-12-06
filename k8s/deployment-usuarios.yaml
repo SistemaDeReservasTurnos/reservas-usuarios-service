@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deploy-usuarios
-  namespace: StudioBarber
+  namespace: studio-barber
   labels:
     app: reservas-usuarios-service
 spec:
@@ -21,9 +21,13 @@ spec:
           image: us-central1-docker.pkg.dev/studiobarber-480215/repo-usuarios/usuarios-service:v1.0.0
           imagePullPolicy: Always  # nos aseguramos que siempre use la ultima version de la imagen
           ports:
-            - containerPort: 8082
+            - containerPort: 8083
               protocol: TCP
+
           env:
+            - name: SPRING_PROFILES_ACTIVE # -> para activar el perfil de cloud (configuraciones especificas para la nube)
+              value: "cloud"
+
             - name: DB_HOST
               value: "127.0.0.1" # La aplicación se conecta al sidecar
             - name: DB_PORT
