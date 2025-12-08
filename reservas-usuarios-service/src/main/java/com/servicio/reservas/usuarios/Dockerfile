@@ -41,7 +41,7 @@ RUN mkdir -p /etc/secrets && chown spring:spring /etc/secrets
 USER spring:spring
 
 # Exponer puerto
-EXPOSE 8082
+EXPOSE 8088
 
 # Ejecutar
 ENTRYPOINT ["java", "-jar", "app.jar"]
