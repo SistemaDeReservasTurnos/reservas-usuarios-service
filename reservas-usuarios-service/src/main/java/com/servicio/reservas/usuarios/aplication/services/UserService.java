@@ -52,8 +52,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deactivateUser(String email) {
-        userRepository.deactivate(email);
+    public void deactivateUser(Long id) {
+        userRepository.deactivate(id);
     }
 
     @Override

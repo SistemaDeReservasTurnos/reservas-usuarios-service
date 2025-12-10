@@ -45,8 +45,8 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
-    public void deactivate(String email){
-        UserModel userModel = getActiveUserModelByEmail(email);
+    public void deactivate(Long id){
+        UserModel userModel = getActiveUserModelById(id);
 
         userModel.setActive(false);
         springUserRepositoryPersistence.save(userModel);

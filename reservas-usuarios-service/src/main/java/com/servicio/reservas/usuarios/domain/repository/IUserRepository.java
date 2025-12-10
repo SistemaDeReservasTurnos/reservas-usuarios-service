@@ -7,7 +7,7 @@ import java.util.List;
 public interface IUserRepository {
     User save(User user);
     List<User> findAllByRole(String role);
-    void deactivate(String email);
+    void deactivate(Long id);
     User getByEmail(String email);
     void update(UpdateUserRequest request);
     Boolean existsByEmail(String email);

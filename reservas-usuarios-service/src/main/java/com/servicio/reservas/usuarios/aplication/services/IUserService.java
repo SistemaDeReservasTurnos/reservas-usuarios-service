@@ -7,7 +7,7 @@ import java.util.List;
 public interface IUserService {
     UserResponse createuser(UserRequest userRequest);
     List<UserResponse> getAllByRole(String role);
-    void deactivateUser(String email);
+    void deactivateUser(Long id);
     UserResponse getUserByEmail(String email);
     void updateUser(UpdateUserRequest request);
     void updatePassword(String email, UpdatePasswordRequest request);
