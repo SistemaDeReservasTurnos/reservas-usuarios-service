@@ -57,13 +57,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateUser(String email, String column, String value) {
-        List<String> allowedColumns = List.of("name", "phone_number");
-        if (!allowedColumns.contains(column)) {
-            throw new BusinessException("Field not allowed for updates: " + column);
-        }
-
-        userRepository.update(email, column, value);
+    public void updateUser(UpdateUserRequest request) {
+        userRepository.update(request);
     }
 
     @Override

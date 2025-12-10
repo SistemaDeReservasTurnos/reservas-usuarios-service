@@ -1,5 +1,6 @@
 package com.servicio.reservas.usuarios.infraestructure.persistence;
 
+import com.servicio.reservas.usuarios.aplication.dto.UpdateUserRequest;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import com.servicio.reservas.usuarios.domain.repository.IUserRepository;
 import com.servicio.reservas.usuarios.infraestructure.exceptions.ResourceNotFoundException;
@@ -52,15 +53,23 @@ public class UserRepositoryPersistence implements IUserRepository {
     }
 
     @Override
-    public void update(String email, String column, String value){
-        UserModel user = getActiveUserModelByEmail(email);
+    public void update(UpdateUserRequest request){
 
-        switch (column) {
-            case "name" -> user.setName(value);
-            case "phone_number" -> user.setPhoneNumber(value);
+        UserModel userModel = getActiveUserModelById(request.getId());
+
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            userModel.setName(request.getName());
         }
 
-        springUserRepositoryPersistence.save(user);
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            userModel.setEmail(request.getEmail());
+        }
+
+        if (request.getPhone_number() != null && !request.getPhone_number().isEmpty()) {
+            userModel.setPhoneNumber(request.getPhone_number());
+        }
+
+        UserModel userUpdate = springUserRepositoryPersistence.save(userModel);
     }
 
     @Override
