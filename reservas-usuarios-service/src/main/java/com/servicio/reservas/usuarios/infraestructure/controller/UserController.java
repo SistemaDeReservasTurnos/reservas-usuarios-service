@@ -1,9 +1,6 @@
 package com.servicio.reservas.usuarios.infraestructure.controller;
 
-import com.servicio.reservas.usuarios.aplication.dto.UpdateEmailRequest;
-import com.servicio.reservas.usuarios.aplication.dto.UserRequest;
-import com.servicio.reservas.usuarios.aplication.dto.UserResponse;
-import com.servicio.reservas.usuarios.aplication.dto.UpdatePasswordRequest;
+import com.servicio.reservas.usuarios.aplication.dto.*;
 import com.servicio.reservas.usuarios.aplication.services.IUserService;
 import com.servicio.reservas.usuarios.domain.entities.Role;
 import jakarta.validation.Valid;
@@ -31,7 +28,7 @@ public class UserController {
     }
     
     @GetMapping("/role/{role}")
-    @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<UserResponse>> getAllByRole(@PathVariable Role role) {
         List<UserResponse> users = userService.getAllByRole(role.name().toLowerCase());
         return ResponseEntity.ok().body(users);
@@ -57,13 +54,12 @@ public class UserController {
             return ResponseEntity.ok("User successfully deactivated");
     }
 
-    @PutMapping("/update/{email}/{column}/{value}")
+    @PutMapping("/update")
     @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR') or authentication.name == #email")
     public ResponseEntity<String> updateUser(
-             @PathVariable String email,
-             @PathVariable String column,
-             @PathVariable String value) {
-            userService.updateUser(email, column, value);
+             @RequestBody UpdateUserRequest request
+) {
+            userService.updateUser(request);
             return ResponseEntity.ok("User successfully updated");
     }
 

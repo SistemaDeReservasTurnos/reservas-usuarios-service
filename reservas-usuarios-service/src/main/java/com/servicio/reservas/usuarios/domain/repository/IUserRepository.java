@@ -1,5 +1,6 @@
 package com.servicio.reservas.usuarios.domain.repository;
 
+import com.servicio.reservas.usuarios.aplication.dto.UpdateUserRequest;
 import com.servicio.reservas.usuarios.domain.entities.User;
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface IUserRepository {
     List<User> findAllByRole(String role);
     void deactivate(String email);
     User getByEmail(String email);
-    void update(String email, String column, String value);
+    void update(UpdateUserRequest request);
     Boolean existsByEmail(String email);
     User getUserById(Long id);
 }
